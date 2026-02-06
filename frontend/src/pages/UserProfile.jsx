@@ -34,18 +34,41 @@ export default function UserProfile() {
         country: 'India'
     });
 
-    // Fetch Addresses
+    const [orders, setOrders] = useState([]);
+    const [loadingOrders, setLoadingOrders] = useState(false);
+
+    // Fetch Data based on active tab
     useEffect(() => {
         if (activeTab === 'addresses') {
             fetchAddresses();
+        } else if (activeTab === 'orders') {
+            fetchOrders();
         }
     }, [activeTab]);
+
+    const fetchOrders = async () => {
+        setLoadingOrders(true);
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch('/api/orders/my-orders', {
+                headers: { 'x-auth-token': token }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setOrders(data);
+            }
+        } catch (error) {
+            console.error("Fetch Orders Error:", error);
+        } finally {
+            setLoadingOrders(false);
+        }
+    };
 
     const fetchAddresses = async () => {
         try {
             const token = localStorage.getItem('token');
             // Using absolute URL to bypass potentially stale proxy
-            const res = await fetch('http://localhost:5004/api/addresses', {
+            const res = await fetch('/api/addresses', {
                 headers: { 'x-auth-token': token }
             });
             if (res.ok) {
@@ -61,7 +84,7 @@ export default function UserProfile() {
         if (!window.confirm('Are you sure?')) return;
         try {
             const token = localStorage.getItem('token');
-            await fetch(`http://localhost:5004/api/addresses/${id}`, {
+            await fetch(`/api/addresses/${id}`, {
                 method: 'DELETE',
                 headers: { 'x-auth-token': token }
             });
@@ -76,8 +99,8 @@ export default function UserProfile() {
         try {
             const token = localStorage.getItem('token');
             const url = editingAddress
-                ? `http://localhost:5004/api/addresses/${editingAddress.id}`
-                : 'http://localhost:5004/api/addresses';
+                ? `/api/addresses/${editingAddress.id}`
+                : '/api/addresses';
 
             const method = editingAddress ? 'PUT' : 'POST';
 
@@ -146,23 +169,8 @@ export default function UserProfile() {
         setShowAddressModal(true);
     };
 
-    // Mock Orders (Keep mocked for now)
-    const orders = [
-        {
-            id: '#ORD-7782',
-            date: 'Oct 24, 2025',
-            status: 'Delivered',
-            total: '$134.00',
-            items: ['Neon Solid Oversized Hoodie by @street_style', 'Luminous Glow Serum v2 by @beauty_by_j']
-        },
-        {
-            id: '#ORD-7541',
-            date: 'Sept 12, 2025',
-            status: 'Delivered',
-            total: '$79.00',
-            items: ['Urban Explorer Backpack by @life_with_leo']
-        }
-    ];
+    // Orders are now fetched from state
+
 
     const handleSave = async () => {
         setIsSaving(true);
@@ -333,30 +341,38 @@ export default function UserProfile() {
                         {activeTab === 'orders' && (
                             <section className="profile-section">
                                 <h2 className="section-header">Order History</h2>
-                                <div className="orders-list">
-                                    {orders.map((order) => (
-                                        <div key={order.id} className="order-card">
-                                            <div className="order-header">
-                                                <div>
-                                                    <span className="order-id">{order.id}</span>
-                                                    <span className="order-date">{order.date}</span>
+                                {orders.length === 0 ? (
+                                    <p className="text-secondary">you haven't plased any orders</p>
+                                ) : (
+                                    <div className="orders-list">
+                                        {orders.map((order) => (
+                                            <div key={order.id} className="order-card">
+                                                <div className="order-header">
+                                                    <div>
+                                                        <span className="order-id">#{order.id}</span>
+                                                        <span className="order-date">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                                    </div>
+                                                    <span className={`order-status status-${order.status?.toLowerCase() || 'pending'}`}>
+                                                        {order.status}
+                                                    </span>
                                                 </div>
-                                                <span className={`order-status status-${order.status.toLowerCase()}`}>
-                                                    {order.status}
-                                                </span>
+                                                <div className="order-items">
+                                                    {order.items && Array.isArray(order.items) ? (
+                                                        order.items.map((item, idx) => (
+                                                            <div key={idx} className="order-item-line">• {item.name || item}</div>
+                                                        ))
+                                                    ) : (
+                                                        <div className="order-item-line">• Order Items (Details unavailable)</div>
+                                                    )}
+                                                </div>
+                                                <div className="order-footer">
+                                                    <span className="order-total">Total: ₹{order.totalAmount}</span>
+                                                    <button className="btn-link">View Details <ChevronRight size={16} /></button>
+                                                </div>
                                             </div>
-                                            <div className="order-items">
-                                                {order.items.map((item, idx) => (
-                                                    <div key={idx} className="order-item-line">• {item}</div>
-                                                ))}
-                                            </div>
-                                            <div className="order-footer">
-                                                <span className="order-total">Total: {order.total}</span>
-                                                <button className="btn-link">View Details <ChevronRight size={16} /></button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
+                                        ))}
+                                    </div>
+                                )}
                             </section>
                         )}
 

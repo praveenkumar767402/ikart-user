@@ -10,7 +10,7 @@ const CreatorSection = () => {
     useEffect(() => {
         const fetchCreators = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/public/creators');
+                const response = await fetch('/api/creators');
                 if (response.ok) {
                     const data = await response.json();
                     setCreators(data.slice(0, 4)); // Show top 4
@@ -50,7 +50,11 @@ const CreatorSection = () => {
                         creators.map((creator, index) => (
                             <div key={creator.id} className={`creator-card animate-slideUp stagger-${index + 1}`}>
                                 <div className="creator-avatar-wrapper">
-                                    <img src={creator.image} alt={creator.name} className="creator-avatar" />
+                                    <img
+                                        src={creator.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(creator.name)}&background=random`}
+                                        alt={creator.name}
+                                        className="creator-avatar"
+                                    />
                                     <div className="creator-badge">{creator.category}</div>
                                 </div>
                                 <h3 className="creator-name">{creator.name}</h3>

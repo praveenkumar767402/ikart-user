@@ -12,7 +12,7 @@ const CreatorProfile = () => {
     useEffect(() => {
         const fetchCreator = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/public/creators/${id}`);
+                const response = await fetch(`/api/creators/${id}`);
                 if (response.ok) {
                     const data = await response.json();
                     setCreator(data);

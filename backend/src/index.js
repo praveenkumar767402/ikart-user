@@ -22,6 +22,7 @@ app.use(express.json());
 require('./models/User');
 require('./models/Product');
 require('./models/Address');
+require('./models/Order');
 // require('./models/Seller'); // If exists in seller-backend only, ignore. But if it's shared, include.
 
 // Database Connection
@@ -33,18 +34,20 @@ sequelize.sync({ alter: true })
 // Force restart 2
 // Routes
 console.log('Loading routes...');
-try {
-    console.log(' - Auth Routes');
-    app.use('/api/auth', require('./routes/authRoutes'));
-    console.log(' - Product Routes');
-    app.use('/api/products', require('./routes/productRoutes'));
-    console.log(' - Seller Routes');
-    app.use('/api/seller', require('./routes/sellerRoutes'));
-    console.log(' - Address Routes');
-    app.use('/api/addresses', require('./routes/addressRoutes'));
-} catch (error) {
-    console.error('Failed to load routes:', error);
-}
+console.log(' - Auth Routes');
+app.use('/api/auth', require('./routes/authRoutes'));
+console.log(' - Product Routes');
+app.use('/api/products', require('./routes/productRoutes'));
+console.log(' - Seller Routes');
+app.use('/api/seller', require('./routes/sellerRoutes'));
+console.log(' - Address Routes');
+app.use('/api/addresses', require('./routes/addressRoutes'));
+console.log(' - Creator Routes');
+app.use('/api/creators', require('./routes/creatorRoutes'));
+console.log(' - Sync Routes');
+app.use('/api/sync', require('./routes/syncRoutes'));
+console.log(' - Order Routes');
+app.use('/api/orders', require('./routes/orderRoutes'));
 
 app.get('/', (req, res) => {
     res.send('Influencer Kart API is Running');

@@ -1,0 +1,33 @@
+Testing models/index.js...
+CRITICAL ERROR LOADING MODELS:
+Error: Cannot find module './src/models'
+Require stack:
+- C:\Users\Praveen kumar\.gemini\antigravity\scratch\ikart-user\backend\test_models.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1410:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1051:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1056:22)
+    at Module._load (node:internal/modules/cjs/loader:1219:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:238:24)
+    at Module.require (node:internal/modules/cjs/loader:1493:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\Praveen kumar\.gemini\antigravity\scratch\ikart-user\backend\test_models.js:19:20)
+    at Module._compile (node:internal/modules/cjs/loader:1738:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\Praveen kumar\\.gemini\\antigravity\\scratch\\ikart-user\\backend\\test_models.js'
+  ]
+}
+Error: Cannot find module './src/models'
+Require stack:
+- C:\Users\Praveen kumar\.gemini\antigravity\scratch\ikart-user\backend\test_models.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1410:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1051:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1056:22)
+    at Module._load (node:internal/modules/cjs/loader:1219:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:238:24)
+    at Module.require (node:internal/modules/cjs/loader:1493:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\Praveen kumar\.gemini\antigravity\scratch\ikart-user\backend\test_models.js:19:20)
+    at Module._compile (node:internal/modules/cjs/loader:1738:14)

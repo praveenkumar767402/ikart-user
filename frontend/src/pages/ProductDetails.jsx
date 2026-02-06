@@ -18,14 +18,14 @@ export default function ProductDetails() {
             try {
                 setLoading(true);
                 // Fetch main product
-                const productRes = await fetch(`http://localhost:8000/api/public/products/${id}`);
+                const productRes = await fetch(`/api/products/${id}`);
                 if (!productRes.ok) throw new Error('Failed to fetch product details');
                 const productData = await productRes.json();
                 setProduct(productData);
                 setActiveImageIndex(0);
 
                 // Fetch suggested products (all products for now, filtered client-side)
-                const suggestedRes = await fetch('http://localhost:8000/api/public/products');
+                const suggestedRes = await fetch('/api/products');
                 if (suggestedRes.ok) {
                     const allProducts = await suggestedRes.json();
                     // Filter out current product and take 4 random/first ones
@@ -77,7 +77,7 @@ export default function ProductDetails() {
                     <div className="product-gallery">
                         <div className="main-image-wrapper">
                             <img
-                                src={product.images && product.images.length > 0 ? product.images[activeImageIndex] : product.image}
+                                src={product.image || `https://placehold.co/600x600?text=${encodeURIComponent(product.name)}`}
                                 alt={product.name}
                                 className="main-image"
                             />

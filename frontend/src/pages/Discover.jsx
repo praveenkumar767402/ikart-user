@@ -15,7 +15,7 @@ export default function Discover() {
 
     const fetchCreators = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/public/creators');
+            const response = await fetch('/api/creators');
             if (!response.ok) throw new Error('Failed to fetch creators');
             const data = await response.json();
             setCreators(data);

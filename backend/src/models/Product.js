@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./User'); // Import User for association
+const Seller = require('./Seller'); // Import Seller for association
 
 const Product = sequelize.define('Product', {
     id: {
@@ -14,7 +14,7 @@ const Product = sequelize.define('Product', {
     },
     description: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
     price: {
         type: DataTypes.DECIMAL(10, 2),
@@ -24,7 +24,7 @@ const Product = sequelize.define('Product', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    imageUrl: {
+    image: {
         type: DataTypes.STRING,
         defaultValue: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=60'
     },
@@ -35,14 +35,12 @@ const Product = sequelize.define('Product', {
     sellerId: {
         type: DataTypes.INTEGER,
         references: {
-            model: User,
+            model: Seller,
             key: 'id'
         }
     }
 });
 
-// Define Relationships
-User.hasMany(Product, { foreignKey: 'sellerId' });
-Product.belongsTo(User, { foreignKey: 'sellerId' });
+// Associations defined in models/index.js
 
 module.exports = Product;

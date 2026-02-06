@@ -10,7 +10,7 @@ const ProductSection = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/public/products');
+                const response = await fetch('/api/products');
                 if (response.ok) {
                     const data = await response.json();
                     setProducts(data.slice(0, 8)); // Show top 8

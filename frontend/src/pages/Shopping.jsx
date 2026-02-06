@@ -16,7 +16,7 @@ export default function Shopping() {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/public/products');
+            const response = await fetch('/api/products');
             if (!response.ok) throw new Error('Failed to fetch products');
             const data = await response.json();
             setProducts(data);
